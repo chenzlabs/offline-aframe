@@ -1,0 +1,42 @@
+<html>
+<head>
+
+<script src="build.js">
+</script>
+
+</head>
+<body>
+
+<a-scene>
+  <a-assets>
+    <a-offline-cdn-assets></a-offline-cdn-assets>
+  </a-assets>
+  <a-sky color="#3CF"></a-sky>
+  <a-text position="0 1 -2" value="Hi there" color="black"></a-text>
+  <a-entity class="controller-entity" oculus-touch-controls='hand:left' position="-0.5 1 -1" ></a-entity>
+  <a-entity class="controller-entity" oculus-touch-controls='hand:right' position="-0.3 1 -1" ></a-entity>
+  <a-entity class="controller-entity" vive-controls='hand:left' position="-0.1 1 -1" ></a-entity>
+  <a-entity class="controller-entity" vive-controls='hand:right' position="0.1 1 -1" ></a-entity>
+  <a-entity class="controller-entity" gearvr-controls position="0.3 1 -1" ></a-entity>
+  <a-entity class="controller-entity" daydream-controls position="0.5 1 -1" ></a-entity>
+
+  <!-- FIXME: hand-controls uses blend-character-model which doesn't seem to use THREE.Cache -->
+  <a-entity hand-controls="left" position="0.7 1 -1" ></a-entity>
+  <a-entity hand-controls="right" position="0.9 1 -1" ></a-entity>
+</a-scene>
+
+<script>
+document.querySelector('a-scene').addEventListener('loaded', function() {
+  Array.prototype.slice.call(document.querySelectorAll('.controller-entity')).forEach(function (el) {
+    Object.keys(el.components).forEach(function (name) {
+      if (name.endsWith('-controls')) {
+        console.log(name);
+        el.components[name].injectTrackedControls(); // updateControllerModel();
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
