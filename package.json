@@ -25,6 +25,7 @@
     "snazzy": "^4.0.1",
     "webpack": "^1.13.2",
     "file-loader": "^0.11.2",
+    "url-loader": "^0.5.9",
     "webpack-dev-server": "^1.16.1"
   }
 }
