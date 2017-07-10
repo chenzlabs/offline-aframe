@@ -46,8 +46,15 @@ require('url-loader?name=controllers/oculus-hands-v2/[name].[ext]!../node_module
 
 var FONT_INLINE_MAP = {
   '' : {
-    'Roboto-msdf.png':
-require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Roboto-msdf.png'),
+    'Roboto-msdf.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Roboto-msdf.png'),
+    'Aileron-Semibold.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Aileron-Semibold.png'),
+    'DejaVu-sdf.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/DejaVu-sdf.png'),
+    'Exo2Bold.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Exo2Bold.png'),
+    'Exo2SemiBold.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Exo2SemiBold.png'),
+    'KelsonSans.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/KelsonSans.png'),
+    'Monoid.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/Monoid.png'),
+    'mozillavr.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/mozillavr.png'),
+    'SourceCodePro.png': require('url-loader?name=fonts/[name].[ext]!../node_modules/aframe-assets/fonts/SourceCodePro.png'),
   },
 };
 

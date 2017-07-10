@@ -1,9 +1,8 @@
-require('./preload-fonts');
-// require('./preload-controllers');
-
 require('aframe');
 
-require('./preload-controllers-inline');
+require('./preload-fonts');
+// require('./preload-controllers');
+require('./preload-inline');
 
 var CDN_BASE_URL = 'https://cdn.aframe.io/';
 
