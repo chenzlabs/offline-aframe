@@ -1,7 +1,9 @@
 require('./preload-fonts');
-require('./preload-controllers');
+// require('./preload-controllers');
 
 require('aframe');
+
+require('./preload-controllers-inline');
 
 var CDN_BASE_URL = 'https://cdn.aframe.io/';
 
@@ -32,7 +34,7 @@ cache.enabled = true;
 
 function loadAndCache(path, cacheAsPath, resolve, reject) {
   var loader;
-  if (path.indexOf('.png') >= 0) { loader = new THREE.ImageLoader(); }
+  if (cacheAsPath.indexOf('.png') >= 0) { loader = new THREE.ImageLoader(); }
   if (!loader) { loader = new THREE.FileLoader(); }
   loader.load(path, function (data) {
     cache.add(cacheAsPath, data);
@@ -74,13 +76,31 @@ var PRELOAD_FILE_MAP = {
 // Done via a child element of a-assets here, similar to a-asset-item.
 // (This require explicit specification of the CDN assets to be preloaded.)
 
+AFRAME.registerElement('a-offline-asset', {
+  prototype: Object.create(AFRAME.ANode.prototype, {
+    createdCallback: { value: function () { this.isAssetItem = true; }},
+    attachedCallback: { value: function () {
+      var self = this;
+      var src = this.getAttribute('src');
+      var prefix = this.getAttribute('prefix') || '';
+      loadAndCache('./' + src, prefix + src, 
+        function () { AFRAME.ANode.prototype.load.call(self); },
+        function () { self.emit('error', {src: src, el: self}); });
+    }}
+  })
+});
+
+// Done via a child element of a-assets here, similar to a-asset-item.
+// (This require explicit specification of the CDN assets to be preloaded.)
+
 AFRAME.registerElement('a-offline-cdn-asset', {
   prototype: Object.create(AFRAME.ANode.prototype, {
     createdCallback: { value: function () { this.isAssetItem = true; }},
     attachedCallback: { value: function () {
       var self = this;
       var src = this.getAttribute('src');
-      loadAndCache('./' + src, CDN_BASE_URL + src, 
+      var prefix = this.getAttribute('prefix') || CDN_BASE_URL;
+      loadAndCache('./' + src, prefix + src, 
         function () { AFRAME.ANode.prototype.load.call(self); },
         function () { self.emit('error', {src: src, el: self}); });
     }}
@@ -112,4 +132,39 @@ AFRAME.registerElement('a-offline-cdn-assets', {
   })
 });
 
+// Done via a child element of a-assets here, similar to a-asset-item.
+// (This require explicit specification of the CDN assets to be preloaded.)
+
+AFRAME.registerElement('a-inline-asset', {
+  prototype: Object.create(AFRAME.ANode.prototype, {
+    createdCallback: { value: function () { this.isAssetItem = true; }},
+    attachedCallback: { value: function () {
+      var self = this;
+      var src = this.getAttribute('src');
+      var prefix = this.getAttribute('prefix') || '';
+      var inline = this.getAttribute('inline');
+      loadAndCache(inline, prefix + src, 
+        function () { AFRAME.ANode.prototype.load.call(self); },
+        function () { self.emit('error', {src: src, el: self}); });
+    }}
+  })
+});
+
+// Done via a child element of a-assets here, similar to a-asset-item.
+// (This require explicit specification of the CDN assets to be preloaded.)
+
+AFRAME.registerElement('a-inline-cdn-asset', {
+  prototype: Object.create(AFRAME.ANode.prototype, {
+    createdCallback: { value: function () { this.isAssetItem = true; }},
+    attachedCallback: { value: function () {
+      var self = this;
+      var src = this.getAttribute('src');
+      var prefix = this.getAttribute('prefix') || CDN_BASE_URL;
+      var inline = this.getAttribute('inline');
+      loadAndCache(inline, prefix + src, 
+        function () { AFRAME.ANode.prototype.load.call(self); },
+        function () { self.emit('error', {src: src, el: self}); });
+    }}
+  })
+});
 
